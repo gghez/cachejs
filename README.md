@@ -70,10 +70,11 @@ Stores ```obj``` in cache associated with ```objKey``` reference for further ret
 
 Retrieves a non-expired value from cache. ```objKey``` is the cache key of stored value. To retrieve item independently of its expired state, use [```getItem```](#getItem) instead.
 
+When no value retrieved for given ```objKey```, returns ```null```.
 
 #### .has(objKey)
 
-Indicates whether object cache key ```objKey``` reference a valid (not expired) object in cache.
+Returns ```true``` whether key ```objKey``` reference a valid (not expired) value in cache, otherwise ```false ```.
 
 #### .setItem(objKey, cacheItem)
 
