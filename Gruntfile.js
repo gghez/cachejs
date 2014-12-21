@@ -9,6 +9,9 @@ module.exports = function (grunt) {
         },
 
         jshint: {
+            options: {
+                '-W107': true
+            },
             dev: {
                 src: ['src/**/*.js']
             },
@@ -34,14 +37,13 @@ module.exports = function (grunt) {
                         dest: '.git/hooks/'
                     }
                 ]
-            },
+            }
+        },
+
+        concat: {
             dist: {
-                files: [
-                    {
-                        src: 'src/index.js',
-                        dest: 'dist/cachejs.js'
-                    }
-                ]
+                src: 'src/**/*.js',
+                dest: 'dist/cachejs.js'
             }
         },
 
@@ -55,16 +57,19 @@ module.exports = function (grunt) {
         },
 
         karma: {
-            continuous: {
-                configFile: 'karma.conf.js',
-                autoWatch: true,
-                singleRun: false
-            },
-            once: {
+            unit: {
                 configFile: 'karma.conf.js',
                 autoWatch: false,
                 singleRun: true
             }
+        },
+
+        mochacli: {
+            options: {
+                recursive: true,
+                reporter: 'progress'
+            },
+            unit: ['test/node/']
         },
 
         bump: {
@@ -92,10 +97,10 @@ module.exports = function (grunt) {
 
     grunt.registerTask('default', ['availabletasks:tasks']);
 
+    grunt.registerTask('compile', ['compile:dev', 'compile:dist']);
     grunt.registerTask('compile:dev', ['jshint:dev', 'jshint:config', 'jshint:test']);
-    grunt.registerTask('compile:dist', ['copy:dist', 'jshint:dist']);
-    grunt.registerTask('test', ['compile:dev', 'karma:once']);
-    grunt.registerTask('run', ['compile:dev', 'karma:continuous']);
+    grunt.registerTask('compile:dist', ['concat:dist', 'jshint:dist']);
+    grunt.registerTask('test', ['compile:dev', 'karma:unit', 'mochacli:unit']);
 
     grunt.registerTask('prepush', ['test']);
 

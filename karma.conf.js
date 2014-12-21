@@ -12,8 +12,9 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            'src/index.js',
-            'test/*Spec.js'
+            'bower_components/optionjs/dist/optionjs.js',
+            'src/**/*.js',
+            'test/regular/*Spec.js'
         ],
 
 
