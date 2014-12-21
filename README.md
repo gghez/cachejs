@@ -82,14 +82,14 @@ Stores a cache item associated with ```objKey``` reference.
 ```js
 cache.setItem('basket', {
   lifetime: 24 * 3600 * 1000, // 24h
-  onExpiry: function(objKey, options) {
-    // options.lifetime === 24 * 3600 * 1000
-    // options.onExpiry === this
+  onExpiry: function(cacheItem) {
+    // cacheItem.lifetime === 24 * 3600 * 1000
+    // cacheItem.onExpiry === this
     
     // mailSender is a fake for this example
-    var basket = options.value
-    mailSender.send(options.value.customerEmail,
-      'Hi, your basket created at ' + options.storedAt + ' has just expired.');
+    var basket = cacheItem.value
+    mailSender.send(cacheItem.value.customerEmail,
+      'Hi, your basket created at ' + cacheItem.storedAt + ' has just expired.');
   },
   value: {
     customerEmail: 'john.doe@domain.ext',
@@ -106,8 +106,11 @@ _Nota bene_: Some readonly fields will be added to this cache item once created:
 
 #### <a name="getItem"></a>.getItem(objKey)
 
-Retrieves an object cache item from cache or ```null```. Cache item prototype:
+Retrieves an object cache item from cache or ```null```.
+
 ```js
+var item = cache.getItem('basket');
+/* item object:
 {
   key: 'basket',
   storedAt: 1419153019947, // Ticks (e.g.: new Date().getTime())
@@ -117,4 +120,5 @@ Retrieves an object cache item from cache or ```null```. Cache item prototype:
   isExpired: function() { ... }, // Returns true or false
   value: { ... } // cached object
 }
+*/
 ```
