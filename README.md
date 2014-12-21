@@ -28,12 +28,11 @@ bower install cachejs
 
 ```html
 <script src="bower_components/cachejs/cachejs.js"></script>
-```
-
-```js
+<script>
 var cache = new CacheJS.Container();
 
 // Same example than in NodeJS context.
+</script>
 ```
 
 ## API
