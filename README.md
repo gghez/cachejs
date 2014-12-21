@@ -61,6 +61,15 @@ Stores ```obj``` in cache associated with ```objKey``` reference for further ret
 
 ```options``` parameter allow to specify some cache feature related to this stored item. This object is the same used to specify container options and overrides already defined container options. See [Container options](#options).
 
+#### .get(objKey)
+
+Retrieves a non-expired value from cache. ```objKey``` is the cache key of stored value. To retrieve item independently of its expired state, use [```getItem```](#getItem) instead.
+
+
+#### .has(objKey)
+
+Indicates whether object cache key ```objKey``` reference a valid (not expired) object in cache.
+
 #### .setItem(objKey, cacheItem)
 
 Stores a cache item associated with ```objKey``` reference.
@@ -74,7 +83,8 @@ cache.setItem('basket', {
     
     // mailSender is a fake for this example
     var basket = options.value
-    mailSender.send(options.value.customerEmail, 'Hi, your basket created at ' + options.storedAt + ' has just expired.');
+    mailSender.send(options.value.customerEmail,
+      'Hi, your basket created at ' + options.storedAt + ' has just expired.');
   },
   value: {
     customerEmail: 'john.doe@domain.ext',
@@ -87,15 +97,11 @@ cache.setItem('basket', {
 });
 ```
 
-Some readonly fields will be added to this cache item once created: ```createdAt```, ```function isExpired()```
+_Nota bene_: Some readonly fields will be added to this cache item once created: ```storedAt```, ```function isExpired()``` and cannot be overriden.
 
-#### .get(objKey)
+### <a name="getItem"></a>.getItem(objKey)
 
-Retrieves a non-expired value from cache. ```objKey``` is the cache key of stored value. To retrieve item independently of its expired state, use ```getItem``` instead.
-
-### .getItem(objKey)
-
-Retrieves an object cache item from cache. Cache item prototype:
+Retrieves an object cache item from cache or ```null```. Cache item prototype:
 ```js
 {
   key: 'basket',
@@ -107,8 +113,3 @@ Retrieves an object cache item from cache. Cache item prototype:
   value: { ... } // cached object
 }
 ```
-
-#### .has(objKey)
-
-Indicates whether object cache key ```objKey``` reference an object in cache.
-
