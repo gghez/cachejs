@@ -1,0 +1,26 @@
+{
+  "name": "cachejs",
+  "version": "0.0.1",
+  "ignore": [
+    "test",
+    ".gitignore",
+    "Gruntfile.js",
+    "karma.conf.js",
+    "package.json",
+    "git_hooks"
+  ],
+  "main": [
+    "dist/**/*.js"
+  ],
+  "keywords": "cache memory mongo",
+  "license": "MIT",
+  "authors": "Gregory Ghez (http://gghez.com)",
+  "homepage": "http://github.com/gghez/cachejs",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/gghez/cachejs.git"
+  },
+  "dependencies":{
+    "optionjs":"^1.0.2"
+  }
+}
