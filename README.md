@@ -35,11 +35,17 @@ var cache = new CacheJS.Container();
 </script>
 ```
 
+All cachejs objects are located in **CacheJS** namespace of **window**.
+
 ## API
 
 ### Container
 
 ```Container``` is a generic cache container model, its default store engine is ```MemoryCacheContainer```. See Store Engine section for more information.
+
+#### Container(options)
+
+Container constructor accepts options object as unique parameter to configure it. Options may be overriden once created using ```options``` instance function.
 
 #### .options(optKey [, optValue])
 
@@ -98,7 +104,7 @@ cache.setItem('basket', {
 
 _Nota bene_: Some readonly fields will be added to this cache item once created: ```storedAt```, ```function isExpired()``` and cannot be overriden.
 
-### <a name="getItem"></a>.getItem(objKey)
+#### <a name="getItem"></a>.getItem(objKey)
 
 Retrieves an object cache item from cache or ```null```. Cache item prototype:
 ```js
