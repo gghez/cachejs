@@ -58,6 +58,7 @@ Option             | Default              | Description
 lifetime           | false                | The default lifetime for stored objects in ms. Set ```false``` evaluated or negative expression for infinite lifetime.
 onUpdate           | -                    | Callback ```function(objKey, oldVal, newVal, options)``` used each time an object iq created or updated in container.
 onExpiry           | -                    | Callback ```function(cacheItem)```used each time an object expires in container. May be used to create an auto-refresh process for ```cacheItem.key``` value.
+storage            | 'memory'             | Storage engine. Native engines are 'memory'... (sorry that's all for now)
 
 
 #### .set(objKey, obj [, options])
