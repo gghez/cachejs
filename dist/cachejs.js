@@ -1,7 +1,5 @@
 (function () {
 
-    console.log('this', this);
-
     var isRegular = typeof window != 'undefined';
     var isCommonJS = typeof module == 'object' && typeof module.exports == 'object';
 
@@ -22,7 +20,7 @@
         }
     }
 
-    function Container(options) {
+    var Container = function (options) {
         var _this = this;
 
         _this._options = createOptionsManager(options, {
@@ -54,7 +52,7 @@
         _this._pruningTimer = setTimeout(function () {
             _this._onPruning();
         }, _this._options.get('pruningInterval'));
-    }
+    };
 
     Container.prototype._onPruning = function () {
         var _this = this;
@@ -156,9 +154,9 @@
     var isCommonJS = typeof module == 'object' && typeof module.exports == 'object';
 
 
-    function MemoryStorage() {
+    var MemoryStorage = function() {
         this._hash = {};
-    }
+    };
 
     MemoryStorage.prototype.set = function (key, value) {
         this._hash[key] = value;

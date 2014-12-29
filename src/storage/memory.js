@@ -4,7 +4,7 @@
     var isCommonJS = typeof module == 'object' && typeof module.exports == 'object';
 
 
-    var MemoryStorage = function() {
+    var MemoryStorage = function () {
         this._hash = {};
     };
 
@@ -12,12 +12,16 @@
         this._hash[key] = value;
     };
 
+    MemoryStorage.prototype.del = function (key) {
+        delete this._hash[key];
+    };
+
     MemoryStorage.prototype.get = function (key) {
         return this._hash[key];
     };
 
     MemoryStorage.prototype.has = function (key) {
-        return this._hash[key];
+        return !!this._hash[key];
     };
 
     MemoryStorage.prototype.keys = function () {

@@ -20,7 +20,7 @@
         }
     }
 
-    var Container = function (options) {
+    function Container(options) {
         var _this = this;
 
         _this._options = createOptionsManager(options, {
@@ -30,7 +30,7 @@
             onExpiry: function () {
             },
             storage: 'memory',
-            pruningInterval: 60000
+            pruningInterval: 5000
         });
 
         _this._options.onChange('storage', function (n) {
@@ -49,15 +49,13 @@
 
         _this._items = {};
 
-        _this._pruningTimer = setTimeout(function () {
-            _this._onPruning();
-        }, _this._options.get('pruningInterval'));
-    };
+        _this._onPruning();
+    }
 
     Container.prototype._onPruning = function () {
         var _this = this;
 
-        Object.keys(this._items)
+        Object.keys(_this._items)
             .map(function (key) {
                 return _this._items[key];
             })
@@ -65,9 +63,14 @@
                 return item.isExpired();
             })
             .forEach(function (item) {
-                item.setValue();
+                delete _this._items[item.key];
+                item._storage.del(item.key);
                 item.onExpiry(item);
             });
+
+        _this._pruningTimer = setTimeout(function () {
+            _this._onPruning();
+        }, _this._options.get('pruningInterval'));
     };
 
     Container.prototype._resolveStorage = function (storage) {
@@ -80,14 +83,16 @@
         return {
             _storage: this._storage,
             key: key,
-            getValue: function () {
-                return this._storage.get(key);
-            },
-            setValue: function (value) {
-                var oldValue = _this._storage.get(key);
-                this._storage.set(key, value);
-                this.storedAt = new Date();
-                this.onUpdate(key, value, oldValue);
+            value: function () {
+                if (arguments.length === 0) {
+                    return this._storage.get(key);
+                } else {
+                    var value = arguments[0];
+                    var oldValue = this._storage.get(key);
+                    this._storage.set(key, value);
+                    this.storedAt = new Date();
+                    this.onUpdate(key, value, oldValue);
+                }
             },
             isExpired: function () {
                 return this.storedAt.getTime() + this.lifetime < new Date().getTime();
@@ -110,14 +115,15 @@
     };
 
     Container.prototype.set = function (key, value, options) {
-        var cacheItem = this._items[key] || this._createItem(key);
+        options = options || {};
+        var cacheItem = this._items[key] || (this._items[key] = this._createItem(key));
 
         // Update cache item options
         cacheItem.lifetime = options.lifetime || this._options.get('lifetime') || cacheItem.lifetime;
         cacheItem.onExpiry = options.onExpiry || this._options.get('onExpiry') || cacheItem.onExpiry;
         cacheItem.onUpdate = options.onUpdate || this._options.get('onUpdate') || cacheItem.onUpdate;
 
-        cacheItem.setValue(value);
+        cacheItem.value(value);
 
         return cacheItem;
     };
@@ -126,7 +132,7 @@
         var cacheItem = this._items[key];
 
         if (cacheItem && !cacheItem.isExpired()) {
-            return cacheItem.getValue();
+            return cacheItem.value();
         }
     };
 
