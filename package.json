@@ -33,12 +33,12 @@
     "grunt-publish": "0.0.5"
   },
   "dependencies": {
-    "optionjs": "^1.0.2"
+    "optionjs": "^1.0.4"
   },
   "files": [
-    "src/**/*.js"
+    "dist/**/*.js"
   ],
-  "main": "src/index.js",
+  "main": "dist/cachejs.js",
   "scripts":{
     "postinstall":"grunt bower:install && grunt copy:hooks && grunt compile",
     "test":"grunt test"
