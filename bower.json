@@ -7,7 +7,8 @@
     "Gruntfile.js",
     "karma.conf.js",
     "package.json",
-    "git_hooks"
+    "git_hooks",
+    "src"
   ],
   "main": [
     "dist/**/*.js"
@@ -21,6 +22,6 @@
     "url": "git://github.com/gghez/cachejs.git"
   },
   "dependencies":{
-    "optionjs":"^1.0.2"
+    "optionjs":"^1.0.4"
   }
 }
