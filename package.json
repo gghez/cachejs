@@ -1,6 +1,6 @@
 {
-  "name": "cachejs",
-  "version": "0.0.2",
+  "name": "cache-js",
+  "version": "0.0.3",
   "description": "Cache container for nodejs and regular Javascript application.",
   "license": "MIT",
   "homepage": "http://github.com/gghez/cachejs",
