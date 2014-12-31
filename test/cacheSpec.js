@@ -66,6 +66,14 @@ describe('Container', function () {
     });
 
     describe('Usages', function () {
+        it('Stored item is returned.', function () {
+            var cache = new cachejs.Container();
+
+            var item = cache.set('item1', {a: 5, b: 'string'});
+            assert.equal(item.key, 'item1');
+            assert.deepEqual(item.value(), {a: 5, b: 'string'});
+        });
+
         it('Stored value is retrieved.', function () {
             var cache = new cachejs.Container();
             cache.set('item1', {a: 5, b: 'string'});
