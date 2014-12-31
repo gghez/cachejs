@@ -3,6 +3,15 @@ cachejs
 
 Cache container for nodejs and regular Javascript application.
 
+[![NPM Version](https://img.shields.io/npm/v/cachejs.svg?style=flat)](https://npmjs.org/package/cachejs)
+[![NPM Downloads](https://img.shields.io/npm/dm/cachejs.svg?style=flat)](https://npmjs.org/package/cachejs)
+[![Build Status](https://img.shields.io/travis/gghez/cachejs.svg?style=flat)](https://travis-ci.org/gghez/cachejs)
+[![Coverage Status](https://img.shields.io/coveralls/gghez/cachejs.svg?style=flat)](https://coveralls.io/r/gghez/cachejs)
+
+## Why
+
+CacheJS is a Cache container, it is designed to be a common cache interface, storage independent.
+
 ## Installation and usage
 
 In node application context:

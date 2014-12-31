@@ -1,7 +1,6 @@
-(function () {
+(function (cachejs) {
 
-    var isRegular = typeof window != 'undefined';
-    var isCommonJS = typeof module == 'object' && typeof module.exports == 'object';
+    var isCommonJS = typeof module == 'object' && typeof module.exports == 'object' && typeof require == 'function';
 
 
     var MemoryStorage = function () {
@@ -28,11 +27,10 @@
         return Object.keys(this._hash);
     };
 
-    if (isRegular) {
-        window.CacheJS = window.CacheJS || {};
-        window.CacheJS.MemoryStorage = MemoryStorage;
-    } else if (isCommonJS) {
-        module.exports.Storage = MemoryStorage;
+    cachejs.MemoryStorage = MemoryStorage;
+
+    if (isCommonJS) {
+        module.exports = MemoryStorage;
     }
 
-})();
+})(typeof cachejs == 'object' && cachejs);

@@ -10,40 +10,16 @@ module.exports = function (grunt) {
 
         jshint: {
             options: {
-                '-W107': true
+                //'-W107': true
             },
             dev: {
                 src: ['src/**/*.js']
-            },
-            dist: {
-                src: ['dist/**/*.js']
             },
             test: {
                 src: ['test/**/*.js']
             },
             config: {
                 src: ['Gruntfile.js', 'karma.conf.js']
-            }
-        },
-
-        copy: {
-            hooks: {
-                files: [
-                    {
-                        expand: true,
-                        flatten: true,
-                        cwd: 'git_hooks/',
-                        src: '*',
-                        dest: '.git/hooks/'
-                    }
-                ]
-            }
-        },
-
-        concat: {
-            dist: {
-                src: 'src/**/*.js',
-                dest: 'dist/cachejs.js'
             }
         },
 
@@ -97,14 +73,9 @@ module.exports = function (grunt) {
 
     grunt.registerTask('default', ['availabletasks:tasks']);
 
-    grunt.registerTask('compile', ['compile:dev', 'compile:dist']);
-    grunt.registerTask('compile:dev', ['jshint:dev', 'jshint:config', 'jshint:test']);
-    grunt.registerTask('compile:dist', ['concat:dist', 'jshint:dist']);
-    grunt.registerTask('test', ['compile:dev', 'karma:unit', 'mochacli:unit']);
-
-    grunt.registerTask('prepush', ['test']);
-
-    // Keep test (even if pre-push hook also test) to avoid bump create tag if failed.
-    grunt.registerTask('release', ['compile', 'bump:patch', 'publish']);
+    grunt.registerTask('compile', ['jshint']);
+    grunt.registerTask('install', ['bower:install', 'compile']);
+    grunt.registerTask('test', ['compile', 'karma:unit', 'mochacli:unit']);
+    grunt.registerTask('release', ['test', 'compile', 'bump:patch', 'publish']);
 
 };

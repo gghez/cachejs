@@ -2,14 +2,14 @@ describe('Container', function () {
 
     var sinon, assert, cachejs;
 
-    if (typeof module == 'object') {
+    if (typeof module == 'object' && typeof require == 'function') {
         sinon = require('sinon');
         assert = require('chai').assert;
-        cachejs = require('../src/index');
+        cachejs = require('../src/cache');
     } else {
         sinon = window.sinon;
         assert = window.chai.assert;
-        cachejs = window.CacheJS;
+        cachejs = window.cachejs;
     }
 
     it('Initialized in current context.', function () {
@@ -24,14 +24,12 @@ describe('Container', function () {
             var cache = new cachejs.Container({
                 lifetime: 3500,
                 onExpiry: onExpiry,
-                onUpdate: onUpdate,
-                storage: 'file'
+                onUpdate: onUpdate
             });
 
             assert.equal(cache.options('lifetime'), 3500);
             assert.equal(cache.options('onExpiry'), onExpiry);
             assert.equal(cache.options('onUpdate'), onUpdate);
-            assert.equal(cache.options('storage'), 'file');
         });
 
         it('Options can be overriden.', function () {
@@ -41,19 +39,16 @@ describe('Container', function () {
             var cache = new cachejs.Container({
                 lifetime: 1750,
                 onExpiry: sinon.stub(),
-                onUpdate: sinon.stub(),
-                storage: 'mongo'
+                onUpdate: sinon.stub()
             });
 
             cache.options('lifetime', 3500);
             cache.options('onExpiry', onExpiry);
             cache.options('onUpdate', onUpdate);
-            cache.options('storage', 'file');
 
             assert.equal(cache.options('lifetime'), 3500);
             assert.equal(cache.options('onExpiry'), onExpiry);
             assert.equal(cache.options('onUpdate'), onUpdate);
-            assert.equal(cache.options('storage'), 'file');
         });
 
         it('Default storage is "memory".', function () {
@@ -67,6 +62,7 @@ describe('Container', function () {
 
             assert.isFalse(cache.options('lifetime'));
         });
+
     });
 
     describe('Usages', function () {
@@ -89,8 +85,8 @@ describe('Container', function () {
             var cache = new cachejs.Container();
             var cacheItem = cache.set('item1', {a: 5, b: 'string'}, {onUpdate: sinon.spy()});
 
-            assert.isTrue(cacheItem.onUpdate.calledOnce);
-            assert.isTrue(cacheItem.onUpdate.calledWith('item1', {a: 5, b: 'string'}));
+            assert.isTrue(cacheItem.options('onUpdate').calledOnce);
+            assert.isTrue(cacheItem.options('onUpdate').calledWith('item1', {a: 5, b: 'string'}));
         });
 
         it('Stored item raise onExpiry on container when expired.', function (done) {
@@ -116,12 +112,12 @@ describe('Container', function () {
             });
 
             setTimeout(function () {
-                assert.isTrue(cacheItem.onExpiry.notCalled);
+                assert.isTrue(cacheItem.options('onExpiry').notCalled);
             }, 50);
 
             setTimeout(function () {
-                assert.isTrue(cacheItem.onExpiry.calledOnce);
-                assert.isTrue(cacheItem.onExpiry.calledWith(cacheItem));
+                assert.isTrue(cacheItem.options('onExpiry').calledOnce);
+                assert.isTrue(cacheItem.options('onExpiry').calledWith(cacheItem));
                 done();
             }, 150);
         });

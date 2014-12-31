@@ -6,12 +6,10 @@
     ".gitignore",
     "Gruntfile.js",
     "karma.conf.js",
-    "package.json",
-    "git_hooks",
-    "src"
+    "package.json"
   ],
   "main": [
-    "dist/**/*.js"
+    "src/**/*.js"
   ],
   "keywords": "cache memory mongo",
   "license": "MIT",
@@ -21,7 +19,7 @@
     "type": "git",
     "url": "git://github.com/gghez/cachejs.git"
   },
-  "dependencies":{
-    "optionjs":"^1.0.4"
+  "dependencies": {
+    "optionjs": "^1.1.2"
   }
 }
