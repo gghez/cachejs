@@ -66,11 +66,20 @@ describe('Container', function () {
     });
 
     describe('Usages', function () {
-        it('Stored item is retrieved.', function () {
+        it('Stored value is retrieved.', function () {
             var cache = new cachejs.Container();
             cache.set('item1', {a: 5, b: 'string'});
 
             assert.deepEqual(cache.get('item1'), {a: 5, b: 'string'});
+        });
+
+        it('Stored item is retrieved.', function () {
+            var cache = new cachejs.Container();
+            cache.set('item1', {a: 5, b: 'string'});
+
+            var item = cache.getItem('item1');
+            assert.equal(item.key, 'item1');
+            assert.deepEqual(item.value(), {a: 5, b: 'string'});
         });
 
         it('Stored item raise onUpdate from container.', function () {
