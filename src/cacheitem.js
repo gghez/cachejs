@@ -20,7 +20,9 @@
     };
 
     CacheItem.prototype.isExpired = function () {
-        return this.storedAt.getTime() + this._options.get('lifetime') < new Date().getTime();
+        var lifetime = this._options.get('lifetime');
+
+        return lifetime && lifetime > 0 && this.storedAt.getTime() + lifetime < new Date().getTime();
     };
 
     CacheItem.prototype.value = function () {

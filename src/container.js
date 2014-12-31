@@ -122,10 +122,10 @@
     };
 
     Container.prototype.get = function (key) {
-        var cacheItem = this._items[key];
+        var item = this._items[key];
 
-        if (cacheItem && !cacheItem.isExpired()) {
-            return cacheItem.value();
+        if (item && !item.isExpired()) {
+            return item.value();
         }
     };
 
