@@ -43,7 +43,7 @@ module.exports = function (grunt) {
         mochacli: {
             options: {
                 recursive: true,
-                reporter: 'progress'
+                reporter: 'spec'
             },
             unit: ['./test/']
         },
