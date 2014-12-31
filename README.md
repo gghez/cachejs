@@ -3,10 +3,9 @@ cachejs
 
 Cache container for nodejs and regular Javascript application.
 
-[![NPM Version](https://img.shields.io/npm/v/cachejs.svg?style=flat)](https://npmjs.org/package/cachejs)
-[![NPM Downloads](https://img.shields.io/npm/dm/cachejs.svg?style=flat)](https://npmjs.org/package/cachejs)
+[![NPM Version](https://img.shields.io/npm/v/cachejs.svg?style=flat)](https://npmjs.org/package/cache-js)
+[![NPM Downloads](https://img.shields.io/npm/dm/cachejs.svg?style=flat)](https://npmjs.org/package/cache-js)
 [![Build Status](https://img.shields.io/travis/gghez/cachejs.svg?style=flat)](https://travis-ci.org/gghez/cachejs)
-[![Coverage Status](https://img.shields.io/coveralls/gghez/cachejs.svg?style=flat)](https://coveralls.io/r/gghez/cachejs)
 
 ## Why
 
@@ -21,12 +20,13 @@ npm install cachejs
 ```
 
 ```js
-var cache = require('cachejs').Container();
+var cachejs = require('cachejs');
+var container = cachejs.Container();
 
 var obj = { ... };
-cache.set('objid', obj); // store in cache
+container.set('objid', obj, { lifetime: 5000 }); // store in cache for 5 sec.
 ...
-var cachedObj = cache.get('objid'); // retrieve from cache
+var cachedObj = container.get('objid'); // retrieve from cache
 ```
 
 In regular Javascript application context:
@@ -36,9 +36,12 @@ bower install cachejs
 ```
 
 ```html
-<script src="bower_components/cachejs/cachejs.js"></script>
+<script src="bower_components/cachejs/cache.js"></script>
+<script src="bower_components/cachejs/storage/memory.js"></script>
+<script src="bower_components/cachejs/cacheitem.js"></script>
+<script src="bower_components/cachejs/container.js"></script>
 <script>
-var cache = new CacheJS.Container();
+var cache = new cachejs.Container();
 
 // Same example than in NodeJS context.
 </script>
@@ -67,7 +70,7 @@ Option             | Default              | Description
 lifetime           | false                | The default lifetime for stored objects in ms. Set ```false``` evaluated or negative expression for infinite lifetime.
 onUpdate           | -                    | Callback ```function(objKey, oldVal, newVal)``` used each time an object is created or updated in container.
 onExpiry           | -                    | Callback ```function(cacheItem)```used each time an object expires in container. May be used to create an auto-refresh process for ```cacheItem.key``` value.
-storage            | 'memory'             | Storage engine. Native engines are 'memory'... (sorry that's all for now)
+storage            | 'memory'             | Storage engine ```{String|Function}```. Native engines are 'memory'... (sorry that's all for now)
 pruningInterval    | 60000                | Interval (in ms.) container checks for expired cache items
 
 #### .set(objKey, obj [, options])
@@ -83,14 +86,21 @@ Returns the stored cache item.
 Property           | Description
 -------------------|--------------
 storedAt           | Storage date (Javascript ```Date``` object)
+
+Function           | Description
+-------------------|--------------
+isExpired          | Indicates whether cache value has expired or not
+value              | Get or set cache item value.
+
+Option             | Description
+-------------------|--------------
 lifetime           | Lifetime of this cache item
-getValue           | Retrieves cache item value from its store
 onExpiry           | Callback used when cache item lifetime expires. Default value is container's one.
 onUpdate           | Callback used when cache item value is updated. Default value is container's one.
 
 Example:
 ```js
-var cacheItem = cache.set('basket', { // Object stored
+var cacheItem = container.set('basket', { // Object stored
     customerEmail: 'john.doe@domain.ext',
     items: [
       { articleId: 45, quantity: 2 },
@@ -108,9 +118,15 @@ var cacheItem = cache.set('basket', { // Object stored
         'Hi, your basket created at ' + cacheItem.storedAt + ' has just expired.');
     }
   });
+
+// Set option
+cacheItem.options('lifetime', 5000);
+
+// Get option
+var updateCallback = cacheItem.options('onUpdate');
 ```
 
-_Nota bene_: Some readonly fields will be added to this cache item once created: ```storedAt```, ```function isExpired()``` and cannot be overriden.
+_Nota bene_: Some readonly fields are added to CacheItem instance once created: ```storedAt``` and cannot be overridden.
 
 #### .get(objKey)
 
