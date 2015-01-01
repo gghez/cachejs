@@ -119,6 +119,7 @@ var cachejs = (function () {
     var OptionsManager = isCommonJS ? require('optionjs') : window.OptionsManager;
     var CacheItem = isCommonJS ? require('./cacheitem') : cachejs.CacheItem;
     var MemoryStorage = isCommonJS ? require('./storage/memory') : cachejs.MemoryStorage;
+    var FileStorage = isCommonJS ? require('./storage/file') : cachejs.FileStorage;
 
     var Container = function (options) {
         var _this = this;
@@ -150,8 +151,10 @@ var cachejs = (function () {
     };
 
     Container.prototype._resolveStorage = function (storage) {
-        if (storage === 'memory') {
+        if (storage == 'memory') {
             return new MemoryStorage();
+        } else if (storage == 'file'){
+            return new FileStorage();
         } else if (typeof storage == 'function' || typeof storage == 'object') {
             return storage;
         } else {

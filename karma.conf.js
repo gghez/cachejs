@@ -14,7 +14,7 @@ module.exports = function (config) {
         files: [
             'bower_components/optionjs/src/option.js',
             'dist/cache.js',
-            'test/*Spec.js'
+            'test/cacheSpec.js'
         ],
 
 

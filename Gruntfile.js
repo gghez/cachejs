@@ -27,7 +27,7 @@ module.exports = function (grunt) {
             dist: {
                 src: [
                     'src/cache.js',
-                    'src/storage/*.js',
+                    'src/storage/memory.js',
                     'src/cacheitem.js',
                     'src/container.js'
                 ],

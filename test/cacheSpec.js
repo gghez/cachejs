@@ -65,7 +65,7 @@ describe('Container', function () {
 
     });
 
-    describe('Usages', function () {
+    describe('Memory storage', function () {
         it('Stored item is returned.', function () {
             var cache = new cachejs.Container();
 
