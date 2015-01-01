@@ -23,6 +23,18 @@ module.exports = function (grunt) {
             }
         },
 
+        concat: {
+            dist: {
+                src: [
+                    'src/cache.js',
+                    'src/storage/*.js',
+                    'src/cacheitem.js',
+                    'src/container.js'
+                ],
+                dest: 'dist/cache.js'
+            }
+        },
+
         bower: {
             install: {
                 options: {
@@ -73,7 +85,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('default', ['availabletasks:tasks']);
 
-    grunt.registerTask('compile', ['jshint']);
+    grunt.registerTask('compile', ['jshint', 'concat:dist']);
     grunt.registerTask('install', ['bower:install', 'compile']);
     grunt.registerTask('test', ['compile', 'karma:unit', 'mochacli:unit']);
     grunt.registerTask('release', ['test', 'compile', 'bump:patch', 'publish']);

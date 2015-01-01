@@ -1,15 +1,16 @@
 {
   "name": "cachejs",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "ignore": [
     "test",
     ".gitignore",
     "Gruntfile.js",
     "karma.conf.js",
-    "package.json"
+    "package.json",
+    "src"
   ],
   "main": [
-    "src/**/*.js"
+    "dist/**/*.js"
   ],
   "keywords": "cache memory mongo",
   "license": "MIT",

@@ -13,10 +13,7 @@ module.exports = function (config) {
         // list of files / patterns to load in the browser
         files: [
             'bower_components/optionjs/src/option.js',
-            'src/cache.js',
-            'src/storage/memory.js',
-            'src/cacheitem.js',
-            'src/container.js',
+            'dist/cache.js',
             'test/*Spec.js'
         ],
 
