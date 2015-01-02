@@ -137,7 +137,7 @@
     };
 
     Container.prototype.has = function (key) {
-        return this._items[key] && !this._items[key].isExpired();
+        return !!this._items[key] && !this._items[key].isExpired();
     };
 
     cachejs.Container = Container;

@@ -5,7 +5,7 @@ describe('File Storage', function () {
     if (typeof module == 'object' && typeof require == 'function') {
         sinon = require('sinon');
         assert = require('chai').assert;
-        FileStorage = require('../src/storage/file');
+        FileStorage = require('../../src/storage/file');
     } else {
         sinon = window.sinon;
         assert = window.chai.assert;
